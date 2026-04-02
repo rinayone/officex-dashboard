@@ -3,815 +3,127 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OfficeX Dashboard</title>
+<title>OfficeX - Login</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Lato:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    font-family: 'Noto Sans JP', 'Lato', 'Inter', sans-serif;
-    background: #f0f2f8;
+    font-family: 'Noto Sans JP', 'Lato', sans-serif;
     min-height: 100vh;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .bg-layer {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    z-index: 0;
-  }
-  .bg-layer img {
-    position: absolute;
-    opacity: 0.15;
-    pointer-events: none;
-  }
-  .bg-img-top {
-    width: 2872px;
-    left: -389px;
-    top: -655px;
-    transform: rotate(-100deg);
-  }
-  .bg-img-bottom {
-    width: 3156px;
-    left: -1465px;
-    top: -715px;
-    transform: rotate(-28.4deg);
-    opacity: 0.18;
-  }
-
-  .main-frame {
-    position: absolute;
-    inset: 32px;
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    z-index: 1;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(2px);
-  }
-
-  /* Sidebar */
-  .sidebar {
-    width: 215px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    flex-shrink: 0;
-    height: 100%;
-  }
-  .sidebar-logo img {
-    width: 183px;
-    height: 65px;
-    object-fit: cover;
-  }
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    flex: 1;
-  }
-  .sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    font-size: 16px;
-    line-height: 24px;
-    color: #0a1a3c;
-    opacity: 0.8;
-    cursor: pointer;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-  .sidebar-item:hover {
-    opacity: 1;
-  }
-  .sidebar-item.active {
-    opacity: 1;
-    font-weight: 500;
-    position: relative;
-  }
-  .sidebar-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: #0a1a3c;
-    border-radius: 0 2px 2px 0;
-  }
-  .sidebar-item img {
-    width: 24px;
-    height: 24px;
-  }
-  .sidebar-spacer { flex: 1; }
-  .sidebar-close {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-    color: #0a1a3c;
-    opacity: 0.8;
-    cursor: pointer;
-  }
-  .sidebar-close img { width: 24px; height: 24px; }
-
-  /* Content */
-  .content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px 15px 15px 0;
-    overflow-y: auto;
-  }
-
-  /* Header */
-  .header {
-    background: rgba(255,255,255,0.3);
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 12px;
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .header-left {
-    color: #0a1a3c;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-  }
-  .header-title {
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 36px;
-  }
-  .header-date {
-    font-family: 'Lato', 'Noto Sans JP', sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-  }
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .icon-btn {
-    width: 48px;
-    height: 48px;
-    background: white;
-    border-radius: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 15px rgba(231,235,246,0.6);
-    padding: 10px;
+    background: linear-gradient(135deg, #e8edf5 0%, #dce4f0 50%, #f0e8f0 100%);
   }
-  .icon-btn img { width: 28px; height: 28px; }
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .user-text {
-    text-align: right;
-    color: #0a1a3c;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-    font-size: 16px;
-    line-height: 24px;
-  }
-  .user-name { font-family: 'Lato', sans-serif; font-weight: 700; }
-  .user-role { font-family: 'Lato', sans-serif; font-weight: 400; }
-
-  /* Stat Cards */
-  .stat-cards {
-    display: flex;
-    gap: 20px;
-  }
-  .stat-card {
-    flex: 1;
-    height: 96px;
-    background: rgba(255,255,255,0.3);
+  .login-card {
+    background: rgba(255,255,255,0.5);
     border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
+    border-radius: 16px;
+    backdrop-filter: blur(20px);
+    padding: 48px 40px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(177,197,212,0.3);
   }
-  .stat-inner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .stat-icon {
-    width: 48px;
-    height: 48px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .stat-icon .bg-circle {
-    position: absolute;
-    inset: 0;
-    width: 48px;
-    height: 48px;
-  }
-  .stat-icon .fg-icon {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    z-index: 1;
-  }
-  .stat-label {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    font-size: 12px;
-    color: #0a1a3c;
-    line-height: 18px;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-  }
-  .stat-label-lg {
-    font-size: 16px;
-    line-height: 24px;
-  }
-  .stat-value {
-    padding: 10px 0;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-  }
-  .stat-number {
+  .login-title {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 32px;
-    line-height: 24px;
+    font-size: 28px;
     color: #0a1a3c;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
   }
-  .stat-unit {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 18px;
-    color: #0a1a3c;
-  }
-  .stat-number.blue { color: #00a4ff; }
-  .stat-number.pink { color: #ff007f; }
-
-  /* Schedule Section */
-  .schedule-section {
-    background: rgba(255,255,255,0.3);
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 12px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    flex: 1;
-  }
-
-  /* Tab bar */
-  .tab-bar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .tab-toggle {
-    background: white;
-    border-radius: 24px;
-    padding: 4px;
-    display: flex;
-    gap: 0;
-    box-shadow: 0 0 15px rgba(231,235,246,0.6);
-  }
-  .tab-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
+  .login-subtitle {
     font-size: 14px;
-    line-height: 21px;
-    cursor: pointer;
-    border: none;
-    background: transparent;
     color: #0a1a3c;
-    white-space: nowrap;
+    opacity: 0.6;
+    margin-bottom: 32px;
   }
-  .tab-btn.active {
-    background: #0a1a3c;
-    color: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1);
+  .input-group {
+    margin-bottom: 24px;
+    text-align: left;
   }
-  .tab-btn img { width: 16px; height: 16px; }
-  .search-btn {
-    width: 45px;
-    height: 45px;
-    background: white;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    box-shadow: 0 0 15px rgba(231,235,246,0.6);
-    opacity: 0.7;
-    cursor: pointer;
-  }
-  .search-btn img { width: 20px; height: 20px; }
-  .date-nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-left: auto;
-    padding: 12px 16px;
-  }
-  .date-arrow {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 18px;
-    cursor: pointer;
-    padding: 8px;
-  }
-  .date-arrow img { width: 20px; height: 20px; }
-  .date-label {
-    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  .input-group label {
+    display: block;
+    font-size: 13px;
     font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
     color: #0a1a3c;
-    white-space: nowrap;
-  }
-
-  /* Filter buttons */
-  .filter-bar {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .filter-btn {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 21px;
-    text-align: center;
-    cursor: pointer;
-    border: none;
-    white-space: nowrap;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-  }
-  .filter-btn.outline {
-    background: white;
-    color: #0a1a3c;
-    box-shadow: 0 0 15px rgba(231,235,246,0.6);
+    margin-bottom: 8px;
     opacity: 0.7;
   }
-  .filter-btn.filled {
-    background: #0a1a3c;
-    color: white;
-    box-shadow: 0 0 15px rgba(231,235,246,0.6);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .filter-btn.filled img { width: 20px; height: 20px; }
-
-  /* Meeting cards */
-  .meeting-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .meeting-card {
-    background: rgba(255,255,255,0.3);
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 12px;
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .meeting-header {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .meeting-title-row {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    padding: 4px 0;
-  }
-  .meeting-title {
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 24px;
-    color: #0a1a3c;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-    white-space: nowrap;
-  }
-  .meeting-title .lato {
-    font-family: 'Lato', sans-serif;
-    font-weight: 500;
-  }
-  .badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 8px;
-    border-radius: 100px;
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 18px;
-    color: white;
-    height: 24px;
-    white-space: nowrap;
-  }
-  .badge.done { background: #00a4ff; width: 60px; box-shadow: 0 0 20px rgba(177,197,212,0.6); }
-  .badge.in-progress { background: #bf00ff; width: 100px; box-shadow: 0 0 20px rgba(177,197,212,0.6); }
-  .badge.reserved { background: #ff007f; width: 60px; box-shadow: 0 0 20px rgba(177,197,212,0.6); }
-
-  .meeting-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .meta-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 12px;
-    line-height: 21px;
-    color: #0a1a3c;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-    white-space: nowrap;
-  }
-  .meta-item img { width: 16px; height: 16px; }
-  .meta-item .lato { font-family: 'Lato', sans-serif; }
-
-  .meeting-attendees {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .meeting-attendees > img:first-child { width: 16px; height: 16px; }
-  .avatar {
-    width: 24px;
-    height: 24px;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .avatar img {
-    width: 24px;
-    height: 24px;
-  }
-  .avatar-label {
-    font-family: 'Inter', 'Noto Sans JP', sans-serif;
-    font-size: 12px;
-    line-height: 20px;
-    color: #0a1a3c;
-    text-shadow: 0 0 20px rgba(177,197,212,0.6);
-    margin-left: -2px;
-  }
-
-  .meeting-divider {
+  .input-group input {
     width: 100%;
-    height: 0;
-    border: none;
-    border-top: 1px solid rgba(0,0,0,0.08);
-  }
-  .meeting-attachment {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    line-height: 20px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.5);
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
     color: #0a1a3c;
-    height: 20px;
+    outline: none;
+    transition: border-color 0.2s;
   }
-  .meeting-attachment img { width: 16px; height: 16px; }
-  .meeting-attachment .lato { font-family: 'Lato', sans-serif; }
+  .input-group input:focus {
+    border-color: #00a4ff;
+    box-shadow: 0 0 0 3px rgba(0,164,255,0.1);
+  }
+  .login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #0a1a3c;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .login-btn:hover { opacity: 0.85; }
+  .error-msg {
+    color: #ff007f;
+    font-size: 13px;
+    margin-top: 16px;
+    display: none;
+  }
 </style>
 </head>
 <body>
-  <div class="bg-layer">
-    <img class="bg-img-top" src="assets/bg.jpg" alt="">
-    <img class="bg-img-bottom" src="assets/bg.jpg" alt="">
+  <div class="login-card">
+    <div class="login-title">OfficeX</div>
+    <div class="login-subtitle">Dashboard Access</div>
+    <form id="loginForm">
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" autofocus>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+      <div class="error-msg" id="error">パスワードが正しくありません</div>
+    </form>
   </div>
-
-  <div class="main-frame">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/logo.png" alt="OfficeX">
-      </div>
-      <div class="sidebar-nav">
-        <a class="sidebar-item active" href="#">
-          <img src="assets/sidebar-calendar.svg" alt="">
-          <span>ダッシュボード</span>
-        </a>
-        <a class="sidebar-item" href="#">
-          <img src="assets/sidebar-clock.svg" alt="">
-          <span>日程調節</span>
-        </a>
-        <a class="sidebar-item" href="#">
-          <img src="assets/sidebar-file.svg" alt="">
-          <span>会議管理</span>
-        </a>
-        <a class="sidebar-item" href="#">
-          <img src="assets/sidebar-users.svg" alt="">
-          <span>顧客企業管理</span>
-        </a>
-        <a class="sidebar-item" href="#">
-          <img src="assets/sidebar-gear.svg" alt="">
-          <span>個人設定</span>
-        </a>
-        <div class="sidebar-spacer"></div>
-        <div class="sidebar-close">
-          <img src="assets/caret-left.svg" alt="">
-          <span>Close</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="content">
-      <!-- Header -->
-      <div class="header">
-        <div class="header-left">
-          <div class="header-title">ダッシュボード</div>
-          <div class="header-date">2025年12月16日（火）10:30</div>
-        </div>
-        <div class="header-right">
-          <div class="icon-btn">
-            <img src="assets/notice.svg" alt="通知">
-          </div>
-          <div class="user-info">
-            <div class="icon-btn">
-              <img src="assets/face.svg" alt="ユーザー">
-            </div>
-            <div class="user-text">
-              <div class="user-name">Hanako Yamada</div>
-              <div class="user-role">Role or Email</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Stat Cards -->
-      <div class="stat-cards">
-        <div class="stat-card">
-          <div class="stat-inner">
-            <div class="stat-icon">
-              <img class="bg-circle" src="assets/add-circle.svg" alt="">
-              <img class="fg-icon" src="assets/add-icon.svg" alt="">
-            </div>
-            <div>
-              <div class="stat-label stat-label-lg">新規会議作成</div>
-            </div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-inner">
-            <div class="stat-icon">
-              <img class="bg-circle" src="assets/calendar-circle.svg" alt="">
-              <img class="fg-icon" src="assets/calendar-icon.svg" alt="">
-            </div>
-            <div>
-              <div class="stat-label">本日の会議</div>
-              <div class="stat-value">
-                <span class="stat-number">10</span>
-                <span class="stat-unit"> 件</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-inner">
-            <div class="stat-icon">
-              <img class="bg-circle" src="assets/calendar-circle.svg" alt="">
-              <img class="fg-icon" src="assets/progress.svg" alt="">
-            </div>
-            <div>
-              <div class="stat-label">会議室状況</div>
-              <div class="stat-value">
-                <span class="stat-number blue">3</span>
-                <span class="stat-unit"> 室空き</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-inner">
-            <div class="stat-icon">
-              <img class="bg-circle" src="assets/today-circle.svg" alt="">
-              <img class="fg-icon" src="assets/today-icon.svg" alt="">
-            </div>
-            <div>
-              <div class="stat-label">AI要約残数</div>
-              <div class="stat-value">
-                <span class="stat-number pink">5</span>
-                <span class="stat-unit"> 時間/月</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Schedule Section -->
-      <div class="schedule-section">
-        <!-- Tab bar -->
-        <div class="tab-bar">
-          <div class="tab-toggle">
-            <button class="tab-btn active">
-              <img src="assets/list-icon.svg" alt="">
-              会議スケジュール
-            </button>
-            <button class="tab-btn">
-              <img src="assets/calendar-tab.svg" alt="">
-              会議室使用状況
-            </button>
-          </div>
-          <div class="search-btn">
-            <img src="assets/search.svg" alt="検索">
-          </div>
-          <div class="date-nav">
-            <div class="date-arrow">
-              <img src="assets/chevron-left.svg" alt="前">
-            </div>
-            <span class="date-label">2026年3月1日</span>
-            <div class="date-arrow">
-              <img src="assets/chevron-right.svg" alt="次">
-            </div>
-          </div>
-        </div>
-
-        <!-- Filter bar -->
-        <div class="filter-bar">
-          <button class="filter-btn outline">すべて</button>
-          <button class="filter-btn filled">
-            日
-            <img src="assets/chevron-down.svg" alt="">
-          </button>
-        </div>
-
-        <!-- Meeting list -->
-        <div class="meeting-list">
-          <!-- Meeting 1 -->
-          <div class="meeting-card">
-            <div class="meeting-header">
-              <div class="meeting-title-row">
-                <div class="meeting-title">株式会社<span class="lato">TheNewGate</span>×株式会社<span class="lato">TheOldGate</span> 新規プロダクト会議</div>
-                <span class="badge done">完了</span>
-              </div>
-              <div class="meeting-meta">
-                <div class="meta-item">
-                  <img src="assets/calendar-tab.svg" alt="">
-                  <span>12月25日（木）</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/clock.svg" alt="">
-                  <span class="lato">10:00 - 11:30</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/map-pin.svg" alt="">
-                  <span>会議室<span class="lato">A</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="meeting-attendees">
-              <img src="assets/users.svg" alt="">
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">田</span>
-              <div class="avatar"><img src="assets/avatar2.svg" alt=""></div>
-              <span class="avatar-label">高</span>
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">山</span>
-            </div>
-            <hr class="meeting-divider">
-            <div class="meeting-attachment">
-              <img src="assets/file.svg" alt="">
-              <span><span class="lato">2</span>件の資料が添付されています</span>
-            </div>
-          </div>
-
-          <!-- Meeting 2 -->
-          <div class="meeting-card">
-            <div class="meeting-header">
-              <div class="meeting-title-row">
-                <div class="meeting-title">事業提携会議</div>
-                <span class="badge done">完了</span>
-              </div>
-              <div class="meeting-meta">
-                <div class="meta-item">
-                  <img src="assets/calendar-tab.svg" alt="">
-                  <span>12月25日（木）</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/clock.svg" alt="">
-                  <span class="lato">10:00 - 11:30</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/map-pin.svg" alt="">
-                  <span>会議室<span class="lato">A</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="meeting-attendees">
-              <img src="assets/users.svg" alt="">
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">田</span>
-              <div class="avatar"><img src="assets/avatar2.svg" alt=""></div>
-              <span class="avatar-label">高</span>
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">山</span>
-            </div>
-          </div>
-
-          <!-- Meeting 3 -->
-          <div class="meeting-card">
-            <div class="meeting-header">
-              <div class="meeting-title-row">
-                <div class="meeting-title">パートナー商談</div>
-                <span class="badge in-progress">会議中</span>
-              </div>
-              <div class="meeting-meta">
-                <div class="meta-item">
-                  <img src="assets/calendar-tab.svg" alt="">
-                  <span>12月25日（木）</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/clock.svg" alt="">
-                  <span class="lato">10:00 - 11:30</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/map-pin.svg" alt="">
-                  <span>会議室<span class="lato">A</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="meeting-attendees">
-              <img src="assets/users.svg" alt="">
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">田</span>
-              <div class="avatar"><img src="assets/avatar2.svg" alt=""></div>
-              <span class="avatar-label">高</span>
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">山</span>
-            </div>
-          </div>
-
-          <!-- Meeting 4 -->
-          <div class="meeting-card">
-            <div class="meeting-header">
-              <div class="meeting-title-row">
-                <div class="meeting-title">週次進捗ミーティング</div>
-                <span class="badge reserved">予約</span>
-              </div>
-              <div class="meeting-meta">
-                <div class="meta-item">
-                  <img src="assets/calendar-tab.svg" alt="">
-                  <span>12月25日（木）</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/clock.svg" alt="">
-                  <span class="lato">10:00 - 11:30</span>
-                </div>
-                <div class="meta-item">
-                  <img src="assets/map-pin.svg" alt="">
-                  <span>会議室<span class="lato">A</span></span>
-                </div>
-              </div>
-            </div>
-            <div class="meeting-attendees">
-              <img src="assets/users.svg" alt="">
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">田</span>
-              <div class="avatar"><img src="assets/avatar2.svg" alt=""></div>
-              <span class="avatar-label">高</span>
-              <div class="avatar"><img src="assets/avatar1.svg" alt=""></div>
-              <span class="avatar-label">山</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const pw = document.getElementById('password').value;
+      const encoded = new TextEncoder().encode(pw);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', encoded);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      const url = hash + '.html';
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        if (res.ok) {
+          window.location.href = url;
+        } else {
+          document.getElementById('error').style.display = 'block';
+        }
+      } catch {
+        document.getElementById('error').style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
